@@ -99,12 +99,13 @@ func main() {
 	fmt.Println()
 
 	// Repeating the parameters of the test followed by the results
-	fmt.Println(params)
-	fmt.Println()
-	fmt.Println(writeResult)
-	fmt.Println()
-	fmt.Println(readResult)
-
+	if !params.tracing {
+  	fmt.Println(params)
+  	fmt.Println()
+  	fmt.Println(writeResult)
+  	fmt.Println()
+  	fmt.Println(readResult)
+  }
 	// Do cleanup if required
 	if !*skipCleanup {
 		fmt.Println()
