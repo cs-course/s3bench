@@ -159,7 +159,7 @@ func (params *Params) Run(op string) Result {
 			result.opDurations = append(result.opDurations, resp.duration.Seconds())
 		}
 		if params.verbose {
-			fmt.Printf("%v operation completed in %0.2fs (%d/%d) - %0.2fMB/s%s\n",
+			fmt.Printf("%v operation completed in %0.3fs (%d/%d) - %0.2fMB/s%s\n",
 				op, resp.duration.Seconds(), i+1, params.numSamples,
 				(float64(result.bytesTransmitted)/(1024*1024))/time.Since(startTime).Seconds(),
 				errorString)
