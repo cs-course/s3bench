@@ -39,6 +39,7 @@ func main() {
 	numSamples := flag.Int("numSamples", 200, "total number of requests to send")
 	skipCleanup := flag.Bool("skipCleanup", false, "skip deleting objects created by this tool at the end of the run")
 	verbose := flag.Bool("verbose", false, "print verbose per thread status")
+	tracing := flag.Bool("tracing", false, "request tracing")
 
 	flag.Parse()
 
@@ -64,6 +65,7 @@ func main() {
 		bucketName:       *bucketName,
 		endpoints:        strings.Split(*endpoint, ","),
 		verbose:          *verbose,
+		tracing:          *tracing,
 	}
 	fmt.Println(params)
 	fmt.Println()
@@ -163,6 +165,10 @@ func (params *Params) Run(op string) Result {
 				op, resp.duration.Seconds(), i+1, params.numSamples,
 				(float64(result.bytesTransmitted)/(1024*1024))/time.Since(startTime).Seconds(),
 				errorString)
+		} else if params.tracing {
+			fmt.Printf("%v %0.3fs%s\n",
+				op, resp.duration.Seconds(),
+				errorString)
 		}
 	}
 
@@ -245,6 +251,7 @@ type Params struct {
 	bucketName       string
 	endpoints        []string
 	verbose          bool
+	tracing          bool
 }
 
 func (params Params) String() string {
@@ -256,6 +263,7 @@ func (params Params) String() string {
 	output += fmt.Sprintf("numClients:       %d\n", params.numClients)
 	output += fmt.Sprintf("numSamples:       %d\n", params.numSamples)
 	output += fmt.Sprintf("verbose:       %d\n", params.verbose)
+	output += fmt.Sprintf("tracing:       %d\n", params.tracing)
 	return output
 }
 
